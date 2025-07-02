@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học tiếng Nhật</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F8FA; /* Light blue-grey background */
+            color: #333333; /* Dark grey for main text */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            display: flex; /* Use flexbox for main layout */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+        /* Main Content Wrapper (to push content right of navbar) */
+        .main-content-wrapper {
+            margin-left: 250px; /* Space for the fixed vertical navbar */
+            flex-grow: 1; /* Allow content to take remaining space */
+            padding: 24px; /* Padding around the main content */
+        }
+        /* Main Container for content within the wrapper */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        /* Card Styling */
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 18px; /* Even more rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1); /* Stronger, softer shadow */
+            padding: 36px; /* More padding */
+            margin-bottom: 36px; /* More space between cards */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-8px); /* More pronounced lift on hover */
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+        /* Button Styling */
+        .button {
+            background-color: #4A90E2; /* Primary blue */
+            color: white;
+            padding: 16px 32px; /* Larger padding */
+            border-radius: 12px; /* More rounded */
+            font-weight: 700; /* Bolder text */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 6px 15px rgba(74, 144, 226, 0.3); /* Shadow for buttons */
+        }
+        .button:hover {
+            background-color: #357ABD; /* Darker blue on hover */
+            transform: translateY(-3px); /* Slight lift */
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+        }
+        .button:active {
+            transform: translateY(0); /* Press effect */
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.2);
+        }
+        /* Section Titles */
+        .section-title {
+            font-size: 2.8rem; /* Larger title */
+            font-weight: 800; /* Extra bold */
+            color: #212529; /* Very dark text */
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px; /* Wider underline */
+            height: 5px; /* Thicker underline */
+            background-color: #4A90E2; /* Accent color under title */
+            border-radius: 3px;
+        }
+        /* Subsection Titles (if needed, though section-title covers most) */
+        .subsection-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #343a40;
+            margin-bottom: 24px;
+        }
+        /* Grid Container for Characters */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* Slightly larger min-width */
+            gap: 15px; /* Slightly larger gap */
+            margin-top: 24px;
+        }
+        /* Grid Item (Hiragana/Katakana) */
+        .grid-item {
+            background-color: #E6F3FF; /* Very light blue background */
+            border-radius: 12px;
+            padding: 18px; /* More padding */
+            text-align: center;
+            font-size: 1.6rem; /* Larger font size */
+            font-weight: 700;
+            color: #0056b3; /* Darker blue text */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .grid-item:hover {
+            background-color: #CCE6FF; /* Lighter blue on hover */
+            transform: translateY(-5px) scale(1.05); /* Lift and slight scale */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        /* Phrase/Vocabulary Item */
+        .phrase-item, .vocabulary-item, .sentence-result-item {
+            background-color: #F0F8FF; /* Even lighter blue */
+            border-left: 8px solid #4A90E2; /* Thicker accent border */
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+        .phrase-item:hover, .vocabulary-item:hover, .sentence-result-item:hover {
+            transform: translateX(8px); /* More pronounced slide effect on hover */
+        }
+        .phrase-content, .vocabulary-content, .sentence-content {
+            flex-grow: 1;
+        }
+        .phrase-japanese, .vocabulary-japanese, .sentence-japanese-corrected {
+            font-size: 1.3rem; /* Slightly larger */
+            font-weight: 700;
+            color: #004085; /* Darker blue */
+        }
+        .phrase-vietnamese, .vocabulary-vietnamese, .sentence-vietnamese-translation {
+            font-size: 1.1rem; /* Slightly larger */
+            color: #495057;
+            margin-top: 8px;
+        }
+        /* Play Button */
+        .play-button {
+            background: none;
+            border: none;
+            font-size: 2rem; /* Larger icon */
+            cursor: pointer;
+            color: #4A90E2; /* Accent color */
+            margin-left: 20px;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .play-button:hover {
+            transform: scale(1.3); /* More pronounced scale */
+            color: #357ABD; /* Darker accent on hover */
+        }
+        /* Loading & Error Messages */
+        #loading-indicator, #kanji-loading-indicator, #vocabulary-loading-indicator, #stroke-order-loading-indicator, #sentence-loading-indicator {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.4rem;
+            color: #4A90E2;
+            font-weight: 600;
+        }
+        #error-message, #kanji-error-message, #vocabulary-error-message, #stroke-order-error-message, #sentence-error-message {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.4rem;
+            color: #dc3545; /* Red for errors */
+            font-weight: 600;
+        }
+        /* Kanji/Vocabulary/Sentence Input & Result */
+        #kanji-result, #vocabulary-result, #sentence-result {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #F0F8FF; /* Light blue background */
+            border-radius: 15px;
+            border: 1px solid #B0D8FF; /* Light blue border */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05); /* Inner shadow */
+        }
+        #kanji-result h3 {
+            font-size: 2rem; /* Larger Kanji character */
+            font-weight: 800;
+            color: #212529;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #kanji-result p {
+            margin-bottom: 12px;
+            color: #495057; /* Darker gray for text */
+            line-height: 1.7;
+        }
+        #kanji-result strong {
+            color: #4A90E2; /* Highlight strong text */
+        }
+        #kanji-result ul, #vocabulary-result ul, #stroke-order-modal-content ul {
+            list-style: disc;
+            margin-left: 30px;
+            margin-top: 18px;
+            color: #495057;
+        }
+        #kanji-result li, #vocabulary-result li, #stroke-order-modal-content li {
+            margin-bottom: 10px;
+            color: #495057;
+            line-height: 1.6;
+        }
+        #kanji-input, #vocabulary-topic-input, #japanese-sentence-input {
+            padding: 14px; /* More padding */
+            border: 2px solid #A7D9FF; /* Thicker, slightly colored border */
+            border-radius: 12px;
+            width: calc(100% - 160px); /* Adjust width */
+            margin-right: 18px;
+            font-size: 1.2rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        #kanji-input:focus, #vocabulary-topic-input:focus, #japanese-sentence-input:focus {
+            outline: none;
+            border-color: #4A90E2; /* Accent color on focus */
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.25); /* Ring effect */
+        }
+        #japanese-sentence-input {
+            width: 100%; /* Full width for textarea */
+            min-height: 100px; /* Minimum height */
+            resize: vertical; /* Allow vertical resizing */
+            margin-right: 0; /* No right margin for textarea */
+        }
+
+        /* Navbar Specific Styles (Vertical) */
+        .navbar {
+            background-color: #2C3E50; /* Dark charcoal for navbar */
+            position: fixed; /* Fixed position */
+            top: 0;
+            left: 0;
+            height: 100vh; /* Full viewport height */
+            width: 250px; /* Fixed width */
+            padding: 20px 0; /* Padding top/bottom */
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.25); /* Shadow on the right */
+            overflow-y: auto; /* Allow scrolling if many links */
+            display: flex;
+            flex-direction: column; /* Arrange links vertically */
+            align-items: center; /* Center items horizontally in navbar */
+        }
+        .navbar-header {
+            color: #DEE2E6;
+            font-size: 1.8rem; /* Larger title */
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 30px; /* Space below title */
+            padding: 0 20px;
+        }
+        .navbar-container {
+            width: 100%; /* Take full width of navbar */
+            display: flex;
+            flex-direction: column; /* Arrange links vertically */
+            align-items: flex-start; /* Align text to the left within navbar */
+            gap: 0.8rem; /* Slightly less space between links for compactness */
+            padding: 0 20px; /* Padding for links inside navbar */
+        }
+        .navbar-link {
+            color: #DEE2E6; /* Light text for links */
+            font-weight: 600;
+            font-size: 1rem; /* Slightly smaller font for compactness */
+            padding: 0.7rem 1rem; /* More padding for vertical links */
+            border-radius: 10px;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+            text-decoration: none;
+            display: flex; /* For icon and text alignment */
+            align-items: center;
+            width: 100%; /* Full width within container */
+            white-space: nowrap; /* Prevent text wrapping within link */
+        }
+        .navbar-link i {
+            margin-right: 10px; /* More space between icon and text */
+            font-size: 1.1rem; /* Slightly smaller icons for compactness */
+        }
+        .navbar-link:hover {
+            background-color: #4A90E2; /* Primary blue on hover */
+            color: white;
+            transform: translateX(5px); /* Slide effect on hover */
+        }
+        .navbar-link:active {
+            transform: translateX(0);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 40px; /* More padding */
+            border-radius: 20px; /* More rounded */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4); /* Stronger shadow */
+            width: 90%;
+            max-width: 550px; /* Slightly wider */
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .modal-close-button {
+            color: #888;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 36px; /* Larger close button */
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .modal-close-button:hover,
+        .modal-close-button:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-title {
+            font-size: 2.5rem; /* Larger title */
+            font-weight: 800;
+            color: #212529;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .modal-romaji {
+            font-size: 1.8rem; /* Larger romaji */
+            font-weight: 600;
+            color: #4A90E2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .modal-section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #212529;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .stroke-order-char-display {
+            font-size: 10rem; /* Even larger character display */
+            font-weight: 800;
+            text-align: center;
+            color: #0056b3; /* Darker blue for character */
+            margin-bottom: 25px;
+            line-height: 1; /* Remove extra line height */
+        }
+        .stroke-order-note {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-top: 25px;
+            text-align: center;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-hidden {
+            display: none;
+        }
+        .modal-visible {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-header">
+            Học tiếng Nhật
+        </div>
+        <div class="navbar-container">
+            <a href="#intro" class="navbar-link"><i class="fas fa-info-circle"></i>Giới thiệu</a>
+            <a href="#hiragana" class="navbar-link"><i class="fas fa-font"></i>Hiragana</a>
+            <a href="#katakana" class="navbar-link"><i class="fas fa-language"></i>Katakana</a>
+            <a href="#phrases" class="navbar-link"><i class="fas fa-comments"></i>Cụm từ cơ bản</a>
+            <a href="#kanji-explainer" class="navbar-link"><i class="fas fa-book-open"></i>Giải thích Kanji</a>
+            <a href="#vocabulary-builder" class="navbar-link"><i class="fas fa-lightbulb"></i>Xây dựng từ vựng</a>
+            <a href="#sentence-translator" class="navbar-link"><i class="fas fa-exchange-alt"></i>Dịch & Sửa câu</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content-wrapper">
+        <div class="container">
+            <header class="text-center mb-16 mt-12">
+                <h1 class="text-6xl font-extrabold text-[#0056b3] mb-6 leading-tight">Chào mừng đến với Học tiếng Nhật!</h1>
+                <p class="text-2xl text-gray-600">Bắt đầu hành trình học tiếng Nhật của bạn một cách dễ dàng và thú vị.</p>
+            </header>
+
+            <main>
+                <!-- Giới thiệu -->
+                <section id="intro" class="card">
+                    <h2 class="section-title">Giới thiệu</h2>
+                    <p class="text-gray-700 leading-relaxed text-lg">
+                        Tiếng Nhật là một ngôn ngữ tuyệt vời với lịch sử phong phú và văn hóa độc đáo. Trang web này được thiết kế để giúp bạn làm quen với những điều cơ bản, từ các bảng chữ cái đến các cụm từ thông dụng. Hãy cùng khám phá!
+                    </p>
+                </section>
+
+                <!-- Hiragana -->
+                <section id="hiragana" class="card">
+                    <h2 class="section-title">Hiragana</h2>
+                    <p class="text-gray-700 mb-8 text-lg">Hiragana là bảng chữ cái ngữ âm cơ bản của tiếng Nhật, được sử dụng để viết các từ gốc Nhật và các yếu tố ngữ pháp.</p>
+                    <div class="grid-container" id="hiragana-grid">
+                        <!-- Hiragana characters with audio and stroke order functionality -->
+                        <div class="grid-item" onclick="playAudio('あ'); showStrokeOrderModal('あ', 'a')">あ (a)</div>
+                        <div class="grid-item" onclick="playAudio('い'); showStrokeOrderModal('い', 'i')">い (i)</div>
+                        <div class="grid-item" onclick="playAudio('う'); showStrokeOrderModal('う', 'u')">う (u)</div>
+                        <div class="grid-item" onclick="playAudio('え'); showStrokeOrderModal('え', 'e')">え (e)</div>
+                        <div class="grid-item" onclick="playAudio('お'); showStrokeOrderModal('お', 'o')">お (o)</div>
+                        <div class="grid-item" onclick="playAudio('か'); showStrokeOrderModal('か', 'ka')">か (ka)</div>
+                        <div class="grid-item" onclick="playAudio('き'); showStrokeOrderModal('き', 'ki')">き (ki)</div>
+                        <div class="grid-item" onclick="playAudio('く'); showStrokeOrderModal('く', 'ku')">く (ku)</div>
+                        <div class="grid-item" onclick="playAudio('け'); showStrokeOrderModal('ke', 'ke')">け (ke)</div>
+                        <div class="grid-item" onclick="playAudio('こ'); showStrokeOrderModal('こ', 'ko')">こ (ko)</div>
+                        <div class="grid-item" onclick="playAudio('さ'); showStrokeOrderModal('さ', 'sa')">さ (sa)</div>
+                        <div class="grid-item" onclick="playAudio('し'); showStrokeOrderModal('し', 'shi')">し (shi)</div>
+                        <div class="grid-item" onclick="playAudio('す'); showStrokeOrderModal('す', 'su')">す (su)</div>
+                        <div class="grid-item" onclick="playAudio('せ'); showStrokeOrderModal('se', 'se')">せ (se)</div>
+                        <div class="grid-item" onclick="playAudio('そ'); showStrokeOrderModal('そ', 'so')">そ (so)</div>
+                        <div class="grid-item" onclick="playAudio('た'); showStrokeOrderModal('た', 'ta')">た (ta)</div>
+                        <div class="grid-item" onclick="playAudio('ち'); showStrokeOrderModal('chi', 'chi')">ち (chi)</div>
+                        <div class="grid-item" onclick="playAudio('つ'); showStrokeOrderModal('つ', 'tsu')">つ (tsu)</div>
+                        <div class="grid-item" onclick="playAudio('て'); showStrokeOrderModal('te', 'te')">て (te)</div>
+                        <div class="grid-item" onclick="playAudio('と'); showStrokeOrderModal('と', 'to')">と (to)</div>
+                        <div class="grid-item" onclick="playAudio('な'); showStrokeOrderModal('na', 'na')">な (na)</div>
+                        <div class="grid-item" onclick="playAudio('に'); showStrokeOrderModal('ni', 'ni')">に (ni)</div>
+                        <div class="grid-item" onclick="playAudio('ぬ'); showStrokeOrderModal('nu', 'nu')">ぬ (nu)</div>
+                        <div class="grid-item" onclick="playAudio('ね'); showStrokeOrderModal('ne', 'ne')">ね (ne)</div>
+                        <div class="grid-item" onclick="playAudio('の'); showStrokeOrderModal('no', 'no')">の (no)</div>
+                        <div class="grid-item" onclick="playAudio('は'); showStrokeOrderModal('ha', 'ha')">は (ha)</div>
+                        <div class="grid-item" onclick="playAudio('ひ'); showStrokeOrderModal('hi', 'hi')">ひ (hi)</div>
+                        <div class="grid-item" onclick="playAudio('ふ'); showStrokeOrderModal('fu', 'fu')">ふ (fu)</div>
+                        <div class="grid-item" onclick="playAudio('へ'); showStrokeOrderModal('he', 'he')">へ (he)</div>
+                        <div class="grid-item" onclick="playAudio('ほ'); showStrokeOrderModal('ho', 'ho')">ほ (ho)</div>
+                        <div class="grid-item" onclick="playAudio('ま'); showStrokeOrderModal('ma', 'ma')">ま (ma)</div>
+                        <div class="grid-item" onclick="playAudio('み'); showStrokeOrderModal('mi', 'mi')">mi (mi)</div>
+                        <div class="grid-item" onclick="playAudio('む'); showStrokeOrderModal('mu', 'mu')">む (mu)</div>
+                        <div class="grid-item" onclick="playAudio('め'); showStrokeOrderModal('me', 'me')">め (me)</div>
+                        <div class="grid-item" onclick="playAudio('も'); showStrokeOrderModal('mo', 'mo')">mo (mo)</div>
+                        <div class="grid-item" onclick="playAudio('や'); showStrokeOrderModal('ya', 'ya')">や (ya)</div>
+                        <div class="grid-item" onclick="playAudio('ゆ'); showStrokeOrderModal('yu', 'yu')">ゆ (yu)</div>
+                        <div class="grid-item" onclick="playAudio('よ'); showStrokeOrderModal('yo', 'yo')">よ (yo)</div>
+                        <div class="grid-item" onclick="playAudio('ら'); showStrokeOrderModal('ra', 'ra')">ら (ra)</div>
+                        <div class="grid-item" onclick="playAudio('り'); showStrokeOrderModal('ri', 'ri')">ri (ri)</div>
+                        <div class="grid-item" onclick="playAudio('る'); showStrokeOrderModal('ru', 'ru')">る (ru)</div>
+                        <div class="grid-item" onclick="playAudio('れ'); showStrokeOrderModal('re', 're')">れ (re)</div>
+                        <div class="grid-item" onclick="playAudio('ろ'); showStrokeOrderModal('ro', 'ro')">ろ (ro)</div>
+                        <div class="grid-item" onclick="playAudio('わ'); showStrokeOrderModal('wa', 'wa')">わ (wa)</div>
+                        <div class="grid-item" onclick="playAudio('を'); showStrokeOrderModal('wo', 'wo')">を (wo)</div>
+                        <div class="grid-item" onclick="playAudio('ん'); showStrokeOrderModal('n', 'n')">ん (n)</div>
+                    </div>
+                </section>
+
+                <!-- Katakana -->
+                <section id="katakana" class="card">
+                    <h2 class="section-title">Katakana</h2>
+                    <p class="text-gray-700 mb-8 text-lg">Katakana là bảng chữ cái ngữ âm cơ bản của tiếng Nhật, được sử dụng để viết các từ mượn từ các ngôn ngữ khác (ví dụ: "computer" là コンピューター - konpyūtā), tên nước ngoài, và để nhấn mạnh.</p>
+                    <div class="grid-container" id="katakana-grid">
+                        <!-- Katakana characters with audio and stroke order functionality -->
+                        <div class="grid-item" onclick="playAudio('ア'); showStrokeOrderModal('ア', 'a')">ア (a)</div>
+                        <div class="grid-item" onclick="playAudio('イ'); showStrokeOrderModal('イ', 'i')">イ (i)</div>
+                        <div class="grid-item" onclick="playAudio('ウ'); showStrokeOrderModal('ウ', 'u')">ウ (u)</div>
+                        <div class="grid-item" onclick="playAudio('エ'); showStrokeOrderModal('エ', 'e')">エ (e)</div>
+                        <div class="grid-item" onclick="playAudio('オ'); showStrokeOrderModal('オ', 'o')">オ (o)</div>
+                        <div class="grid-item" onclick="playAudio('カ'); showStrokeOrderModal('カ', 'ka')">カ (ka)</div>
+                        <div class="grid-item" onclick="playAudio('キ'); showStrokeOrderModal('キ', 'ki')">キ (ki)</div>
+                        <div class="grid-item" onclick="playAudio('ク'); showStrokeOrderModal('ク', 'ku')">ク (ku)</div>
+                        <div class="grid-item" onclick="playAudio('ケ'); showStrokeOrderModal('ケ', 'ke')">ケ (ke)</div>
+                        <div class="grid-item" onclick="playAudio('コ'); showStrokeOrderModal('コ', 'ko')">コ (ko)</div>
+                        <div class="grid-item" onclick="playAudio('サ'); showStrokeOrderModal('サ', 'sa')">サ (sa)</div>
+                        <div class="grid-item" onclick="playAudio('シ'); showStrokeOrderModal('シ', 'shi')">シ (shi)</div>
+                        <div class="grid-item" onclick="playAudio('ス'); showStrokeOrderModal('ス', 'su')">ス (su)</div>
+                        <div class="grid-item" onclick="playAudio('セ'); showStrokeOrderModal('セ', 'se')">セ (se)</div>
+                        <div class="grid-item" onclick="playAudio('ソ'); showStrokeOrderModal('ソ', 'so')">ソ (so)</div>
+                        <div class="grid-item" onclick="playAudio('タ'); showStrokeOrderModal('タ', 'ta')">タ (ta)</div>
+                        <div class="grid-item" onclick="playAudio('チ'); showStrokeOrderModal('チ', 'chi')">チ (chi)</div>
+                        <div class="grid-item" onclick="playAudio('ツ'); showStrokeOrderModal('ツ', 'tsu')">ツ (tsu)</div>
+                        <div class="grid-item" onclick="playAudio('テ'); showStrokeOrderModal('テ', 'te')">テ (te)</div>
+                        <div class="grid-item" onclick="playAudio('ト'); showStrokeOrderModal('ト', 'to')">ト (to)</div>
+                        <div class="grid-item" onclick="playAudio('ナ'); showStrokeOrderModal('ナ', 'na')">ナ (na)</div>
+                        <div class="grid-item" onclick="playAudio('ニ'); showStrokeOrderModal('ニ', 'ni')">ニ (ni)</div>
+                        <div class="grid-item" onclick="playAudio('ヌ'); showStrokeOrderModal('ヌ', 'nu')">ヌ (nu)</div>
+                        <div class="grid-item" onclick="playAudio('ネ'); showStrokeOrderModal('ネ', 'ne')">ネ (ne)</div>
+                        <div class="grid-item" onclick="playAudio('ノ'); showStrokeOrderModal('ノ', 'no')">ノ (no)</div>
+                        <div class="grid-item" onclick="playAudio('ハ'); showStrokeOrderModal('ハ', 'ha')">ハ (ha)</div>
+                        <div class="grid-item" onclick="playAudio('ヒ'); showStrokeOrderModal('ヒ', 'hi')">ヒ (hi)</div>
+                        <div class="grid-item" onclick="playAudio('フ'); showStrokeOrderModal('フ', 'fu')">フ (fu)</div>
+                        <div class="grid-item" onclick="playAudio('ヘ'); showStrokeOrderModal('ヘ', 'he')">ヘ (he)</div>
+                        <div class="grid-item" onclick="playAudio('ホ'); showStrokeOrderModal('ホ', 'ho')">ホ (ho)</div>
+                        <div class="grid-item" onclick="playAudio('マ'); showStrokeOrderModal('マ', 'ma')">マ (ma)</div>
+                        <div class="grid-item" onclick="playAudio('ミ'); showStrokeOrderModal('ミ', 'mi')">ミ (mi)</div>
+                        <div class="grid-item" onclick="playAudio('ム'); showStrokeOrderModal('ム', 'mu')">ム (mu)</div>
+                        <div class="grid-item" onclick="playAudio('メ'); showStrokeOrderModal('メ', 'me')">メ (me)</div>
+                        <div class="grid-item" onclick="playAudio('モ'); showStrokeOrderModal('モ', 'mo')">モ (mo)</div>
+                        <div class="grid-item" onclick="playAudio('ヤ'); showStrokeOrderModal('ヤ', 'ya')">ヤ (ya)</div>
+                        <div class="grid-item" onclick="playAudio('ユ'); showStrokeOrderModal('ユ', 'yu')">ユ (yu)</div>
+                        <div class="grid-item" onclick="playAudio('ヨ'); showStrokeOrderModal('ヨ', 'yo')">ヨ (yo)</div>
+                        <div class="grid-item" onclick="playAudio('ラ'); showStrokeOrderModal('ラ', 'ra')">ラ (ra)</div>
+                        <div class="grid-item" onclick="playAudio('リ'); showStrokeOrderModal('リ', 'ri')">リ (ri)</div>
+                        <div class="grid-item" onclick="playAudio('ル'); showStrokeOrderModal('ル', 'ru')">ル (ru)</div>
+                        <div class="grid-item" onclick="playAudio('レ'); showStrokeOrderModal('レ', 're')">レ (re)</div>
+                        <div class="grid-item" onclick="playAudio('ロ'); showStrokeOrderModal('ロ', 'ro')">ロ (ro)</div>
+                        <div class="grid-item" onclick="playAudio('ワ'); showStrokeOrderModal('ワ', 'wa')">ワ (wa)</div>
+                        <div class="grid-item" onclick="playAudio('ヲ'); showStrokeOrderModal('ヲ', 'wo')">ヲ (wo)</div>
+                        <div class="grid-item" onclick="playAudio('ン'); showStrokeOrderModal('ン', 'n')">ン (n)</div>
+                    </div>
+                </section>
+
+                <!-- Cụm từ cơ bản -->
+                <section id="phrases" class="card">
+                    <h2 class="section-title">Cụm từ cơ bản</h2>
+                    <p class="text-gray-700 mb-8 text-lg">Dưới đây là một số cụm từ tiếng Nhật thông dụng mà bạn có thể sử dụng hàng ngày.</p>
+                    <div id="phrases-list">
+                        <!-- Phrases with audio functionality -->
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">こんにちは (Konnichiwa)</div>
+                                <div class="phrase-vietnamese">Xin chào</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('こんにちは')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">ありがとう (Arigatou)</div>
+                                <div class="phrase-vietnamese">Cảm ơn</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('ありがとう')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">すみません (Sumimasen)</div>
+                                <div class="phrase-vietnamese">Xin lỗi / Làm ơn</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('すみません')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">はい (Hai)</div>
+                                <div class="phrase-vietnamese">Vâng / Có</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('はい')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">いいえ (Iie)</div>
+                                <div class="phrase-vietnamese">Không</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('いいえ')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">おはようございます (Ohayou gozaimasu)</div>
+                                <div class="phrase-vietnamese">Chào buổi sáng</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('おはようございます')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">おやすみなさい (Oyasuminasai)</div>
+                            <div class="phrase-vietnamese">Chúc ngủ ngon</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('おやすみなさい')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">いただきます (Itadakimasu)</div>
+                                <div class="phrase-vietnamese">Mời ăn (trước khi ăn)</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('いただきます')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">ごちそうさまでした (Gochisousama deshita)</div>
+                                <div class="phrase-vietnamese">Cảm ơn vì bữa ăn (sau khi ăn)</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('ごちそうさまでした')">🔊</button>
+                        </div>
+                        <div class="phrase-item">
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">お元気ですか？ (Ogenki desu ka?)</div>
+                                <div class="phrase-vietnamese">Bạn khỏe không?</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('お元気ですか？')">🔊</button>
+                        </div>
+                    </div>
+                    <div class="text-center mt-10">
+                        <button id="load-more-phrases" class="button">Tìm hiểu thêm cụm từ ✨</button>
+                    </div>
+                    <div id="loading-indicator">Đang tải thêm cụm từ...</div>
+                    <div id="error-message">Đã xảy ra lỗi khi tải cụm từ. Vui lòng thử lại.</div>
+                </section>
+
+                <!-- Kanji Explainer -->
+                <section id="kanji-explainer" class="card">
+                    <h2 class="section-title">Giải thích Kanji ✨</h2>
+                    <p class="text-gray-700 mb-8 text-lg">Nhập một ký tự Kanji để tìm hiểu ý nghĩa, cách đọc và ví dụ.</p>
+                    <div class="flex items-center mb-8">
+                        <input type="text" id="kanji-input" placeholder="Nhập Kanji (ví dụ: 学)" class="flex-grow">
+                        <button id="explain-kanji-button" class="button ml-4">Giải thích</button>
+                    </div>
+                    <div id="kanji-loading-indicator">Đang tìm kiếm Kanji...</div>
+                    <div id="kanji-error-message">Không thể tìm thấy thông tin cho Kanji này hoặc đã xảy ra lỗi. Vui lòng thử lại.</div>
+                    <div id="kanji-result">
+                        <!-- Kanji explanation will be displayed here -->
+                    </div>
+                </section>
+
+                <!-- Vocabulary Builder -->
+                <section id="vocabulary-builder" class="card">
+                    <h2 class="section-title">Xây dựng từ vựng ✨</h2>
+                    <p class="text-gray-700 mb-8 text-lg">Nhập một chủ đề để nhận danh sách các từ vựng tiếng Nhật liên quan.</p>
+                    <div class="flex items-center mb-8">
+                        <input type="text" id="vocabulary-topic-input" placeholder="Nhập chủ đề (ví dụ: thức ăn)" class="flex-grow">
+                        <button id="generate-vocabulary-button" class="button ml-4">Tạo từ vựng</button>
+                    </div>
+                    <div id="vocabulary-loading-indicator">Đang tạo từ vựng...</div>
+                    <div id="vocabulary-error-message">Đã xảy ra lỗi khi tạo từ vựng. Vui lòng thử lại.</div>
+                    <div id="vocabulary-result">
+                        <!-- Generated vocabulary will be displayed here -->
+                    </div>
+                </section>
+
+                <!-- Sentence Translator/Corrector -->
+                <section id="sentence-translator" class="card">
+                    <h2 class="section-title">Dịch & Sửa câu tiếng Nhật ✨</h2>
+                    <p class="text-gray-700 mb-8 text-lg">Nhập một câu tiếng Nhật để dịch sang tiếng Việt hoặc kiểm tra ngữ pháp.</p>
+                    <div class="mb-8">
+                        <textarea id="japanese-sentence-input" placeholder="Nhập câu tiếng Nhật của bạn ở đây (ví dụ: 私は学生です。)" class="block w-full p-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300"></textarea>
+                        <button id="translate-correct-button" class="button mt-4 w-full">Dịch & Sửa</button>
+                    </div>
+                    <div id="sentence-loading-indicator">Đang xử lý câu...</div>
+                    <div id="sentence-error-message">Đã xảy ra lỗi khi xử lý câu. Vui lòng thử lại.</div>
+                    <div id="sentence-result">
+                        <!-- Translation and correction will be displayed here -->
+                    </div>
+                </section>
+            </main>
+
+            <footer class="text-center mt-16 text-gray-500 text-sm">
+                <p>&copy; 2025 Học tiếng Nhật. Tất cả quyền được bảo lưu.</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Stroke Order Modal -->
+    <div id="stroke-order-modal" class="modal-overlay modal-hidden">
+        <div class="modal-content">
+            <span class="modal-close-button" onclick="closeStrokeOrderModal()">&times;</span>
+            <div class="stroke-order-char-display" id="modal-character"></div>
+            <p class="modal-romaji" id="modal-romaji"></p>
+            <div id="stroke-order-loading-indicator">Đang tải thứ tự nét...</div>
+            <div id="stroke-order-error-message">Không thể tải thông tin thứ tự nét. Vui lòng thử lại.</div>
+            <div id="stroke-order-modal-content">
+                <!-- Stroke order details will be loaded here -->
+            </div>
+            <p class="stroke-order-note">
+                Lưu ý: Để xem minh họa động về thứ tự nét viết, bạn có thể tìm kiếm các tài nguyên chuyên biệt trực tuyến.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Function to play audio using Google Translate's TTS
+        function playAudio(text) {
+            // Encode the text to be used in the URL
+            const encodedText = encodeURIComponent(text);
+            // Construct the Google Translate TTS URL for Japanese
+            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=ja&client=tw-ob`;
+            
+            const audio = new Audio(audioUrl);
+            audio.play().catch(e => console.error("Error playing audio:", e));
+        }
+
+        // Function to show stroke order modal
+        async function showStrokeOrderModal(character, romaji) {
+            const modal = document.getElementById('stroke-order-modal');
+            const modalCharacter = document.getElementById('modal-character');
+            const modalRomaji = document.getElementById('modal-romaji');
+            const modalContent = document.getElementById('stroke-order-modal-content');
+            const loadingIndicator = document.getElementById('stroke-order-loading-indicator');
+            const errorMessage = document.getElementById('stroke-order-error-message');
+
+            modalCharacter.textContent = character;
+            modalRomaji.textContent = `(${romaji})`;
+            modalContent.innerHTML = ''; // Clear previous content
+            errorMessage.style.display = 'none';
+            loadingIndicator.style.display = 'block';
+            modal.classList.remove('modal-hidden');
+            modal.classList.add('modal-visible');
+
+            try {
+                let chatHistory = [];
+                const prompt = `Cung cấp số nét và mô tả cách viết từng nét cho ký tự tiếng Nhật '${character}' (Hiragana hoặc Katakana). Định dạng JSON như sau: {\"character\": \"${character}\", \"romaji\": \"${romaji}\", \"strokeCount\": \"...\", \"strokeOrder\": [\"Nét 1: ...\", \"Nét 2: ...\", ...], \"notes\": \"...\"}`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "character": { "type": "STRING" },
+                                "romaji": { "type": "STRING" },
+                                "strokeCount": { "type": "STRING" },
+                                "strokeOrder": {
+                                    "type": "ARRAY",
+                                    "items": { "type": "STRING" }
+                                },
+                                "notes": { "type": "STRING" }
+                            },
+                            "propertyOrdering": ["character", "romaji", "strokeCount", "strokeOrder", "notes"]
+                        }
+                    }
+                };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const json = result.candidates[0].content.parts[0].text;
+                    const strokeData = JSON.parse(json);
+
+                    let strokeOrderHtml = strokeData.strokeOrder.map(stroke => `<li>${stroke}</li>`).join('');
+                    
+                    modalContent.innerHTML = `
+                        <p class="modal-section-title">Số nét: ${strokeData.strokeCount}</p>
+                        <p class="modal-section-title">Thứ tự nét:</p>
+                        <ul>${strokeOrderHtml}</ul>
+                        ${strokeData.notes ? `<p class="modal-section-title">Lưu ý:</p><p>${strokeData.notes}</p>` : ''}
+                    `;
+                } else {
+                    errorMessage.style.display = 'block';
+                    console.error('Unexpected API response structure for stroke order:', result);
+                }
+            } catch (error) {
+                errorMessage.style.display = 'block';
+                console.error('Error fetching stroke order:', error);
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Function to close stroke order modal
+        function closeStrokeOrderModal() {
+            const modal = document.getElementById('stroke-order-modal');
+            modal.classList.remove('modal-visible');
+            modal.classList.add('modal-hidden');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('stroke-order-modal');
+            if (event.target == modal) {
+                closeStrokeOrderModal();
+            }
+        }
+
+        // Event listener for loading more phrases
+        document.getElementById('load-more-phrases').addEventListener('click', async () => {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const errorMessage = document.getElementById('error-message');
+            const phrasesList = document.getElementById('phrases-list');
+
+            loadingIndicator.style.display = 'block';
+            errorMessage.style.display = 'none';
+
+            try {
+                let chatHistory = [];
+                const prompt = "Hãy cung cấp thêm 5 cụm từ tiếng Nhật cơ bản với phiên âm Romaji và nghĩa tiếng Việt. Định dạng JSON như sau: [{\"japanese\": \"...\", \"romaji\": \"...\", \"vietnamese\": \"...\"}]";
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "ARRAY",
+                            items: {
+                                type: "OBJECT",
+                                properties: {
+                                    "japanese": { "type": "STRING" },
+                                    "romaji": { "type": "STRING" },
+                                    "vietnamese": { "type": "STRING" }
+                                },
+                                "propertyOrdering": ["japanese", "romaji", "vietnamese"]
+                            }
+                        }
+                    }
+                };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const json = result.candidates[0].content.parts[0].text;
+                    const newPhrases = JSON.parse(json);
+
+                    newPhrases.forEach(phrase => {
+                        const phraseDiv = document.createElement('div');
+                        phraseDiv.classList.add('phrase-item');
+                        phraseDiv.innerHTML = `
+                            <div class="phrase-content">
+                                <div class="phrase-japanese">${phrase.japanese} (${phrase.romaji})</div>
+                                <div class="phrase-vietnamese">${phrase.vietnamese}</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('${phrase.japanese}')">🔊</button>
+                        `;
+                        phrasesList.appendChild(phraseDiv);
+                    });
+                } else {
+                    errorMessage.style.display = 'block';
+                    console.error('Unexpected API response structure:', result);
+                }
+            } catch (error) {
+                errorMessage.style.display = 'block';
+                console.error('Error fetching more phrases:', error);
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        });
+
+        // Event listener for Kanji Explainer
+        document.getElementById('explain-kanji-button').addEventListener('click', async () => {
+            const kanjiInput = document.getElementById('kanji-input').value.trim();
+            const kanjiLoadingIndicator = document.getElementById('kanji-loading-indicator');
+            const kanjiErrorMessage = document.getElementById('kanji-error-message');
+            const kanjiResult = document.getElementById('kanji-result');
+
+            kanjiResult.innerHTML = ''; // Clear previous results
+            kanjiErrorMessage.style.display = 'none';
+
+            if (!kanjiInput) {
+                kanjiResult.innerHTML = '<p class="text-red-500">Vui lòng nhập một ký tự Kanji.</p>';
+                return;
+            }
+
+            kanjiLoadingIndicator.style.display = 'block';
+
+            try {
+                let chatHistory = [];
+                const prompt = `Giải thích Kanji ${kanjiInput}, bao gồm ý nghĩa, cách đọc On'yomi và Kun'yomi, và 3 ví dụ từ vựng (từ tiếng Nhật, cách đọc Romaji và nghĩa tiếng Việt). Định dạng JSON như sau: {\"kanji\": \"...\", \"meaning\": \"...\", \"onyomi\": \"...\", \"kunyomi\": \"...\", \"examples\": [{\"word\": \"...\", \"reading\": \"...\", \"meaning\": \"...\"}, {\"word\": \"...\", \"reading\": \"...\", \"meaning\": \"...\"}, {\"word\": \"...\", \"reading\": \"...\", \"meaning\": \"...\"}]}`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "kanji": { "type": "STRING" },
+                                "meaning": { "type": "STRING" },
+                                "onyomi": { "type": "STRING" },
+                                "kunyomi": { "type": "STRING" },
+                                "examples": {
+                                    "type": "ARRAY",
+                                    "items": {
+                                        type: "OBJECT",
+                                        properties: {
+                                            "word": { "type": "STRING" },
+                                            "reading": { "type": "STRING" },
+                                            "meaning": { "type": "STRING" }
+                                        },
+                                        "propertyOrdering": ["word", "reading", "meaning"]
+                                    }
+                                }
+                            },
+                            "propertyOrdering": ["kanji", "meaning", "onyomi", "kunyomi", "examples"]
+                        }
+                    }
+                };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const json = result.candidates[0].content.parts[0].text;
+                    const kanjiData = JSON.parse(json);
+
+                    let examplesHtml = kanjiData.examples.map(ex => `
+                        <li><strong>${ex.word}</strong> (${ex.reading}): ${ex.meaning}</li>
+                    `).join('');
+
+                    kanjiResult.innerHTML = `
+                        <h3 class="text-center">${kanjiData.kanji}</h3>
+                        <p><strong>Ý nghĩa:</strong> ${kanjiData.meaning}</p>
+                        <p><strong>Cách đọc On'yomi:</strong> ${kanjiData.onyomi}</p>
+                        <p><strong>Cách đọc Kun'yomi:</strong> ${kanjiData.kunyomi}</p>
+                        <p><strong>Ví dụ:</strong></p>
+                        <ul>${examplesHtml}</ul>
+                    `;
+                } else {
+                    kanjiErrorMessage.style.display = 'block';
+                    console.error('Unexpected API response structure for Kanji:', result);
+                }
+            } catch (error) {
+                kanjiErrorMessage.style.display = 'block';
+                console.error('Error fetching Kanji explanation:', error);
+            } finally {
+                kanjiLoadingIndicator.style.display = 'none';
+            }
+        });
+
+        // Event listener for Vocabulary Builder
+        document.getElementById('generate-vocabulary-button').addEventListener('click', async () => {
+            const topicInput = document.getElementById('vocabulary-topic-input').value.trim();
+            const vocabularyLoadingIndicator = document.getElementById('vocabulary-loading-indicator');
+            const vocabularyErrorMessage = document.getElementById('vocabulary-error-message');
+            const vocabularyResult = document.getElementById('vocabulary-result');
+
+            vocabularyResult.innerHTML = ''; // Clear previous results
+            vocabularyErrorMessage.style.display = 'none';
+
+            if (!topicInput) {
+                vocabularyResult.innerHTML = '<p class="text-red-500">Vui lòng nhập một chủ đề.</p>';
+                return;
+            }
+
+            vocabularyLoadingIndicator.style.display = 'block';
+
+            try {
+                let chatHistory = [];
+                const prompt = `Cung cấp 7 từ vựng tiếng Nhật liên quan đến chủ đề "${topicInput}", bao gồm từ tiếng Nhật, phiên âm Romaji và nghĩa tiếng Việt. Định dạng JSON như sau: [{\"japanese\": \"...\", \"romaji\": \"...\", \"vietnamese\": \"...\"}, {\"japanese\": \"...\", \"romaji\": \"...\", \"vietnamese\": \"...\"}, ...]`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "ARRAY",
+                            items: {
+                                type: "OBJECT",
+                                properties: {
+                                    "japanese": { "type": "STRING" },
+                                    "romaji": { "type": "STRING" },
+                                    "vietnamese": { "type": "STRING" }
+                                },
+                                "propertyOrdering": ["japanese", "romaji", "vietnamese"]
+                            }
+                        }
+                    }
+                };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const json = result.candidates[0].content.parts[0].text;
+                    const vocabularyData = JSON.parse(json);
+
+                    let vocabularyHtml = vocabularyData.map(item => `
+                        <div class="vocabulary-item">
+                            <div class="vocabulary-content">
+                                <div class="vocabulary-japanese">${item.japanese} (${item.romaji})</div>
+                                <div class="vocabulary-vietnamese">${item.vietnamese}</div>
+                            </div>
+                            <button class="play-button" onclick="playAudio('${item.japanese}')">🔊</button>
+                        </div>
+                    `).join('');
+
+                    vocabularyResult.innerHTML = vocabularyHtml;
+                } else {
+                    vocabularyErrorMessage.style.display = 'block';
+                    console.error('Unexpected API response structure for Vocabulary:', result);
+                }
+            } catch (error) {
+                vocabularyErrorMessage.style.display = 'block';
+                console.error('Error fetching vocabulary:', error);
+            } finally {
+                vocabularyLoadingIndicator.style.display = 'none';
+            }
+        });
+
+        // Event listener for Sentence Translator/Corrector
+        document.getElementById('translate-correct-button').addEventListener('click', async () => {
+            const japaneseSentenceInput = document.getElementById('japanese-sentence-input').value.trim();
+            const sentenceLoadingIndicator = document.getElementById('sentence-loading-indicator');
+            const sentenceErrorMessage = document.getElementById('sentence-error-message');
+            const sentenceResult = document.getElementById('sentence-result');
+
+            sentenceResult.innerHTML = ''; // Clear previous results
+            sentenceErrorMessage.style.display = 'none';
+
+            if (!japaneseSentenceInput) {
+                sentenceResult.innerHTML = '<p class="text-red-500">Vui lòng nhập một câu tiếng Nhật.</p>';
+                return;
+            }
+
+            sentenceLoadingIndicator.style.display = 'block';
+
+            try {
+                let chatHistory = [];
+                const prompt = `Dịch câu tiếng Nhật sau sang tiếng Việt và sửa lỗi ngữ pháp nếu có. Cung cấp cả câu tiếng Nhật đã sửa (nếu có) và bản dịch tiếng Việt. Định dạng JSON như sau: {\"originalJapanese\": \"${japaneseSentenceInput}\", \"correctedJapanese\": \"...\", \"vietnameseTranslation\": \"...\"}`;
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "originalJapanese": { "type": "STRING" },
+                                "correctedJapanese": { "type": "STRING" },
+                                "vietnameseTranslation": { "type": "STRING" }
+                            },
+                            "propertyOrdering": ["originalJapanese", "correctedJapanese", "vietnameseTranslation"]
+                        }
+                    }
+                };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const json = result.candidates[0].content.parts[0].text;
+                    const sentenceData = JSON.parse(json);
+
+                    let correctedJapaneseHtml = sentenceData.originalJapanese === sentenceData.correctedJapanese 
+                        ? `<p class="sentence-japanese-corrected"><strong>Câu gốc:</strong> ${sentenceData.originalJapanese}</p>`
+                        : `<p class="sentence-japanese-corrected"><strong>Câu đã sửa:</strong> ${sentenceData.correctedJapanese}</p><p class="text-sm text-gray-500"><em>(Câu gốc: ${sentenceData.originalJapanese})</em></p>`;
+
+                    sentenceResult.innerHTML = `
+                        <div class="sentence-result-item">
+                            <div class="sentence-content">
+                                ${correctedJapaneseHtml}
+                                <p class="sentence-vietnamese-translation"><strong>Dịch tiếng Việt:</strong> ${sentenceData.vietnameseTranslation}</p>
+                            </div>
+                            <button class="play-button" onclick="playAudio('${sentenceData.correctedJapanese}')">🔊</button>
+                        </div>
+                    `;
+                } else {
+                    sentenceErrorMessage.style.display = 'block';
+                    console.error('Unexpected API response structure for sentence translation/correction:', result);
+                }
+            } catch (error) {
+                sentenceErrorMessage.style.display = 'block';
+                console.error('Error fetching sentence translation/correction:', error);
+            } finally {
+                sentenceLoadingIndicator.style.display = 'none';
+            }
+        });
+
+        // Cultural Insights event listener removed
+        // document.getElementById('get-cultural-insight-button').addEventListener('click', async () => { ... });
+    </script>
+</body>
+</html>
